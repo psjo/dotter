@@ -1,0 +1,27 @@
+<settings>
+
+	<setting propertyKey="@Properties.appName" title="@Strings.appName">
+		<settingConfig type="alphaNumeric" readonly="true" />
+	</setting>
+	
+	<setting propertyKey="@Properties.appVersion" title="@Strings.appVersion">
+		<settingConfig type="alphaNumeric" readonly="true" />
+	</setting>
+	
+	<setting propertyKey="@Properties.fg" title="@Strings.fg">
+		<settingConfig type="numeric" readonly="false" min="0x000000" max="0xFFFFFF"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.count" title="@Strings.count">
+		<settingConfig type="numeric" readonly="false" min="0" max="28"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.analog" title="@Strings.analog">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.batdot" title="@Strings.batdot">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+
+</settings>
