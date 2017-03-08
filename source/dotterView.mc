@@ -178,52 +178,52 @@ class dotterView extends Ui.WatchFace {
             y -= 5;
         }
         if (mon == 1) {
-            drawSNum(dc, 25, w2 + 2, y, pad, size);
-            drawSNum(dc, 20, w2 + 29, y, pad, size);
+            drawSNum(dc, 25, w2 - 2, y, pad, size);
+            drawSNum(dc, 20, w2 + 27, y, pad, size);
             drawSNum(dc, 15, w2 + 56, y, pad, size);
         } else if (mon == 2) {
-            drawSNum(dc, 14, w2 + 2, y, pad, size);
-            drawSNum(dc, 16, w2 + 29, y, pad, size);
+            drawSNum(dc, 14, w2 - 2, y, pad, size);
+            drawSNum(dc, 16, w2 + 27, y, pad, size);
             drawSNum(dc, 26, w2 + 56, y, pad, size);
         } else if (mon == 3) {
-            drawSNum(dc, 11, w2 + 2, y, pad, size);
-            drawSNum(dc, 20, w2 + 29, y, pad, size);
+            drawSNum(dc, 11, w2 - 2, y, pad, size);
+            drawSNum(dc, 20, w2 + 27, y, pad, size);
             drawSNum(dc, 17, w2 + 56, y, pad, size);
         } else if (mon == 4) {
-            drawSNum(dc, 20, w2 + 2, y, pad, size);
-            drawSNum(dc, 27, w2 + 29, y, pad, size);
+            drawSNum(dc, 20, w2 - 2, y, pad, size);
+            drawSNum(dc, 27, w2 + 27, y, pad, size);
             drawSNum(dc, 17, w2 + 56, y, pad, size);
         } else if (mon == 5) {
-            drawSNum(dc, 11, w2 + 2, y, pad, size);
-            drawSNum(dc, 20, w2 + 29, y, pad, size);
+            drawSNum(dc, 11, w2 - 2, y, pad, size);
+            drawSNum(dc, 20, w2 + 27, y, pad, size);
             drawSNum(dc, 25, w2 + 56, y, pad, size);
         } else if (mon == 6) {
-            drawSNum(dc, 25, w2 + 2, y, pad, size);
-            drawSNum(dc, 23, w2 + 29, y, pad, size);
+            drawSNum(dc, 25, w2 - 2, y, pad, size);
+            drawSNum(dc, 23, w2 + 27, y, pad, size);
             drawSNum(dc, 15, w2 + 56, y, pad, size);
         } else if (mon == 7) {
-            drawSNum(dc, 25, w2 + 2, y, pad, size);
-            drawSNum(dc, 15, w2 + 29, y, pad, size);
+            drawSNum(dc, 25, w2 - 2, y, pad, size);
+            drawSNum(dc, 15, w2 + 27, y, pad, size);
             drawSNum(dc, 28, w2 + 56, y, pad, size);
         } else if (mon == 8) {
-            drawSNum(dc, 20, w2 + 2, y, pad, size);
-            drawSNum(dc, 23, w2 + 29, y, pad, size);
+            drawSNum(dc, 20, w2 - 2, y, pad, size);
+            drawSNum(dc, 23, w2 + 27, y, pad, size);
             drawSNum(dc, 29, w2 + 56, y, pad, size);
         } else if (mon == 9) {
-            drawSNum(dc, 21, w2 + 2, y, pad, size);
-            drawSNum(dc, 16, w2 + 29, y, pad, size);
+            drawSNum(dc, 21, w2 - 2, y, pad, size);
+            drawSNum(dc, 16, w2 + 27, y, pad, size);
             drawSNum(dc, 27, w2 + 56, y, pad, size);
         } else if (mon == 10) {
-            drawSNum(dc, 0, w2 + 2, y, pad, size);
-            drawSNum(dc, 32, w2 + 29, y, pad, size);
+            drawSNum(dc, 0, w2 - 2, y, pad, size);
+            drawSNum(dc, 32, w2 + 27, y, pad, size);
             drawSNum(dc, 12, w2 + 56, y, pad, size);
         } else if (mon == 11) {
-            drawSNum(dc, 15, w2 + 2, y, pad, size);
-            drawSNum(dc, 0, w2 + 29, y, pad, size);
+            drawSNum(dc, 15, w2 - 2, y, pad, size);
+            drawSNum(dc, 0, w2 + 27, y, pad, size);
             drawSNum(dc, 31, w2 + 56, y, pad, size);
         } else if (mon == 12) {
-            drawSNum(dc, 22, w2 + 2, y, pad, size);
-            drawSNum(dc, 16, w2 + 29, y, pad, size);
+            drawSNum(dc, 22, w2 - 2, y, pad, size);
+            drawSNum(dc, 16, w2 + 27, y, pad, size);
             drawSNum(dc, 32, w2 + 56, y, pad, size);
         }
     }
@@ -290,7 +290,6 @@ class dotterView extends Ui.WatchFace {
         x = w2 + hand[1]*Math.sin( min );
         y = w2 - hand[1]*Math.cos( min );
         dc.fillCircle(x, y, 3);
-
 
     }
 

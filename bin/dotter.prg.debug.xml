@@ -155,23 +155,23 @@
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="290" pc="268440202" symbol="drawAnalog"/>
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="291" pc="268440239" symbol="drawAnalog"/>
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="292" pc="268440276" symbol="drawAnalog"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="297" pc="268440298" symbol="drawSNum"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="298" pc="268440302" symbol="drawSNum"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="299" pc="268440320" symbol="drawSNum"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="300" pc="268440338" symbol="drawSNum"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="301" pc="268440367" symbol="drawSNum"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="307" pc="268440427" symbol="onHide"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="310" pc="268440432" symbol="onExitSleep"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="311" pc="268440436" symbol="onExitSleep"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="312" pc="268440446" symbol="onExitSleep"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="315" pc="268440460" symbol="onEnterSleep"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="316" pc="268440464" symbol="onEnterSleep"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="319" pc="268440475" symbol="getS"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="320" pc="268440479" symbol="getS"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="321" pc="268440496" symbol="getS"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="322" pc="268440520" symbol="getS"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="323" pc="268440544" symbol="getS"/>
-<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="324" pc="268440568" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="296" pc="268440298" symbol="drawSNum"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="297" pc="268440302" symbol="drawSNum"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="298" pc="268440320" symbol="drawSNum"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="299" pc="268440338" symbol="drawSNum"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="300" pc="268440367" symbol="drawSNum"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="306" pc="268440427" symbol="onHide"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="309" pc="268440432" symbol="onExitSleep"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="310" pc="268440436" symbol="onExitSleep"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="311" pc="268440446" symbol="onExitSleep"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="314" pc="268440460" symbol="onEnterSleep"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="315" pc="268440464" symbol="onEnterSleep"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="318" pc="268440475" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="319" pc="268440479" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="320" pc="268440496" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="321" pc="268440520" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="322" pc="268440544" symbol="getS"/>
+<entry filename="/Users/keso/src/workspace/dotter/source/dotterView.mc" lineNum="323" pc="268440568" symbol="getS"/>
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterApp.mc" lineNum="8" pc="268440593" symbol="initialize"/>
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterApp.mc" lineNum="9" pc="268440597" symbol="initialize"/>
 <entry filename="/Users/keso/src/workspace/dotter/source/dotterApp.mc" lineNum="13" pc="268440616" symbol="onStart"/>
@@ -283,7 +283,7 @@
 <entry endPc="268440592" name="app" stackId="1" startPc="268440479"/>
 <entry endPc="268441062" name="rez_cmp_local_bitmap_TimeLabel" stackId="3" startPc="268440725"/>
 <entry endPc="268441062" name="rez_cmp_local_bitmap_TimeLabel_fontHeight" stackId="4" startPc="268440725"/>
-<entry endPc="268441062" name="rez_cmp_local_custom_drawable_HGIROV1JY1Y9RIWBIB4S" stackId="2" startPc="268440725"/>
+<entry endPc="268441062" name="rez_cmp_local_custom_drawable_PMIEI3R8O6RIJTY25SWO" stackId="2" startPc="268440725"/>
 </localVars>
 <annotations/>
 <functions>

@@ -1,7 +1,7 @@
 <properties>
 
 	<property id="appName" type="string">the dotter</property>
-	<property id="appVersion" type="string">20170215</property>
+	<property id="appVersion" type="string">20170308</property>
 	<property id="fg" type="number">0xFFFFFF</property>
 	<property id="count" type="number">20</property>
 	<property id="analog" type="boolean">true</property>
