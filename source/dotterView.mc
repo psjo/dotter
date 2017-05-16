@@ -11,7 +11,9 @@ class dotterView extends Ui.WatchFace {
     var on = true;
     var batdot = true;
     var analog = true;
+    var is24 = true;
     var timer = 9;
+    var countdown = timer;
     var dott = 3, dotd = 2, dotts = 2;
     var w, h, w2, h2;
     var fg = Gfx.COLOR_WHITE;
@@ -70,7 +72,8 @@ class dotterView extends Ui.WatchFace {
                   [ 9, 2, 7, 17, 2, 2, 9 ], // G 29
                   [ 2, 18, 19, 15, 19, 18, 2 ], // K 30
                   [ 2, 2, 12, 12, 12, 5, 5 ], // V 31
-                  [ 9, 2, 7, 7, 7, 2, 9 ] ]; // C 32
+                  [ 9, 2, 7, 7, 7, 2, 9 ], // C 32
+                  [ 2, 2, 2, 9, 5, 5, 5 ] ]; // Y 33
 
     function initialize() {
         WatchFace.initialize();
@@ -95,10 +98,10 @@ class dotterView extends Ui.WatchFace {
         dc.clear();
         if (on) {
             drawTime(dc, dott);
-            if (timer > 0) {
+            if (countdown > 0) {
                 drawDate(dc, dotd);
                 drawBat(dc, dotd);
-                timer -= 1;
+                countdown -= 1;
             }
             drawMsg(dc);
         } else if (analog) {
@@ -120,6 +123,9 @@ class dotterView extends Ui.WatchFace {
         var now = Cal.info(Time.now(), Time.FORMAT_SHORT);
         var hour = now.hour;
         var min = now.min;
+        if (!is24 && hour > 12) {
+            hour -= 12;
+        }
         drawSNum(dc, hour/10, w2 - 100, h2 - 24, 9, size); // hour
         drawSNum(dc, hour%10, w2 - 50, h2 - 24, 9, size);
         drawSNum(dc, 10, w2 - 18, h2 - 24, 9, size); // :
@@ -147,6 +153,7 @@ class dotterView extends Ui.WatchFace {
 
     function drawBat(dc, size) {
         var bat = Sys.getSystemStats().battery.toNumber();
+
         if (batdot) {
             var rad = 6;
             bat = bat / 20;
@@ -196,7 +203,7 @@ class dotterView extends Ui.WatchFace {
         } else if (mon == 5) {
             drawSNum(dc, 11, w2 - 2, y, pad, size);
             drawSNum(dc, 20, w2 + 27, y, pad, size);
-            drawSNum(dc, 25, w2 + 56, y, pad, size);
+            drawSNum(dc, 33, w2 + 56, y, pad, size);
         } else if (mon == 6) {
             drawSNum(dc, 25, w2 - 2, y, pad, size);
             drawSNum(dc, 23, w2 + 27, y, pad, size);
@@ -252,11 +259,11 @@ class dotterView extends Ui.WatchFace {
             drawSNum(dc, 12, w2 - 42, y, pad, size);
             drawSNum(dc, 19, w2 - 10, y, pad, size);
             drawSNum(dc, 23, w2 + 22, y, pad, size);
-        } else if (day == 5) { // fri
+        } else if (day == 6) { // fri
             drawSNum(dc, 14, w2 - 42, y, pad, size);
             drawSNum(dc, 17, w2 - 10, y, pad, size);
             drawSNum(dc, 18, w2 + 22, y, pad, size);
-        } else if (day == 5) { // sat
+        } else if (day == 7) { // sat
             drawSNum(dc, 21, w2 - 42, y, pad, size);
             drawSNum(dc, 20, w2 - 10, y, pad, size);
             drawSNum(dc, 12, w2 + 22, y, pad, size);
@@ -264,11 +271,16 @@ class dotterView extends Ui.WatchFace {
     }
 
     function drawMsg(dc) {
-        if (Sys.getDeviceSettings().notificationCount) {
+        var settings = Sys.getDeviceSettings();
+        if (settings.notificationCount) {
             for (var i = h - 22; i < h; i += 6) {
                 for (var j = w2 - 42; j < w2 + 43; j += 6) {
                     dc.fillCircle(j, i, 2);
                 }
+            }
+        } else if (settings.phoneConnected) {
+            for (var j = w2 - 42; j < w2 + 43; j += 6) {
+                dc.drawCircle(j, h - 4, 2);
             }
         }
     }
@@ -308,7 +320,7 @@ class dotterView extends Ui.WatchFace {
 
     function onExitSleep() {
         on = true;
-        timer = 5;
+        countdown = timer;
     }
 
     function onEnterSleep() {
@@ -316,10 +328,13 @@ class dotterView extends Ui.WatchFace {
     }
 
     function getS() {
+        var settings = Sys.getDeviceSettings();
+        is24 = settings.is24Hour;
+
         var app = App.getApp();
         analog = app.getProperty("analog");
-        fg = app.getProperty("fg");
-        timer = app.getProperty("count");
+        fg = app.getProperty("fg").toNumber();
+        timer = app.getProperty("count").toNumber();
         batdot = app.getProperty("batdot");
     }
 }

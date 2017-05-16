@@ -2,7 +2,7 @@
 	<string id="appName">Name</string>
 	<string id="appVersion">Version</string>
 	<string id="AppName">dotter</string>
-	<string id="fg">fg, white = 16777215</string>
+	<string id="fg">fg, white = 16777215,red=16711680,yellow=16755200</string>
 	<string id="count">time count for date when awake</string>
 	<string id="analog">analog</string>
 	<string id="batdot">battery dots, else numbers</string>
