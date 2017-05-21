@@ -17,6 +17,7 @@ class dotterView extends Ui.WatchFace {
     var dott = 3, dotd = 2, dotts = 2;
     var w, h, w2, h2;
     var fg = Gfx.COLOR_WHITE;
+    var bg = Gfx.COLOR_BLACK;
 
     // building blocks for numbers and ....
     var block = [ [ 0, 0, 0, 0, 0 ], // 0
@@ -94,7 +95,7 @@ class dotterView extends Ui.WatchFace {
             load = false;
             getS();
         }
-        dc.setColor(fg, 0);
+        dc.setColor(fg, bg);
         dc.clear();
         if (on) {
             drawTime(dc, dott);
@@ -286,7 +287,7 @@ class dotterView extends Ui.WatchFace {
     }
 
     function drawAnalog(dc) {
-        var hand = [ w2 - 6, w2 - 14, w2 - 28, w2 - 42 ];
+        var hand = [ w2 - 6, w2 - 14, w2 - 22, w2 - 30 ];
         var now = Sys.getClockTime();
         var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
         var min = Math.PI * now.min / 30.0;
@@ -297,12 +298,16 @@ class dotterView extends Ui.WatchFace {
 
         x = w2 + hand[0]*Math.sin( min );
         y = w2 - hand[0]*Math.cos( min );
-        dc.setColor(fg, -1);
         dc.fillCircle(x, y, 3);
         x = w2 + hand[1]*Math.sin( min );
         y = w2 - hand[1]*Math.cos( min );
         dc.fillCircle(x, y, 3);
 
+        if (Sys.getDeviceSettings().notificationCount) {
+            x = w2 + hand[2]*Math.sin( min );
+            y = w2 - hand[2]*Math.cos( min );
+            dc.fillCircle(x, y, 3);
+        }
     }
 
     function drawSNum(dc, nr, x, y, pad, size) {
@@ -334,6 +339,7 @@ class dotterView extends Ui.WatchFace {
         var app = App.getApp();
         analog = app.getProperty("analog");
         fg = app.getProperty("fg").toNumber();
+        bg = app.getProperty("bg").toNumber();
         timer = app.getProperty("count").toNumber();
         batdot = app.getProperty("batdot");
     }
