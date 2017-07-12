@@ -40,7 +40,7 @@ class dotterView extends Ui.WatchFace {
                   [ 1, 0, 0, 1, 1 ], // 17
                   [ 1, 0, 0, 1, 0 ], // 18
                   [ 1, 0, 1, 0, 0 ] ]; // 19
-    // use blocks to make numbers
+    // use blocks to make numbers + letters
     var numS =   [ [ 9, 2, 2, 2, 2, 2, 9 ], // 0
                   [ 5, 8, 5, 5, 5, 5, 9 ], // 1
                   [ 9, 2, 3, 4, 5, 6, 1 ], // 2
@@ -158,11 +158,11 @@ class dotterView extends Ui.WatchFace {
         if (batdot) {
             var rad = 6;
             bat = bat / 20;
-            for (var i = 0; i <= bat; i += 1) {
-                dc.fillCircle(59 + i * 25, 20, rad);
+            for (var i = 0; i < bat && i < 4; i += 1) {
+                dc.fillCircle(69 + i * 25, 17, rad);
             }
-            for (var i = bat + 1; i < 5; i += 1) {
-                dc.drawCircle(59 + i * 25, 20, rad);
+            for (var i = bat; i < 4; i += 1) {
+                dc.drawCircle(69 + i * 25, 17, rad);
             }
         } else {
             var pad = 0;
@@ -211,7 +211,7 @@ class dotterView extends Ui.WatchFace {
             drawSNum(dc, 15, w2 + 56, y, pad, size);
         } else if (mon == 7) {
             drawSNum(dc, 25, w2 - 2, y, pad, size);
-            drawSNum(dc, 15, w2 + 27, y, pad, size);
+            drawSNum(dc, 23, w2 + 27, y, pad, size);
             drawSNum(dc, 28, w2 + 56, y, pad, size);
         } else if (mon == 8) {
             drawSNum(dc, 20, w2 - 2, y, pad, size);
