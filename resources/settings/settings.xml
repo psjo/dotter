@@ -1,0 +1,67 @@
+<settings>
+
+	<setting propertyKey="@Properties.appName" title="@Strings.appName">
+		<settingConfig type="alphaNumeric" readonly="true" />
+	</setting>
+	
+	<setting propertyKey="@Properties.appVersion" title="@Strings.appVersion">
+		<settingConfig type="alphaNumeric" readonly="true" />
+	</setting>
+	
+	<setting propertyKey="@Properties.fg" title="@Strings.fg"
+		prompt="@Strings.colPrompt">
+		<settingConfig type="list">
+			<listEntry value="0xFFFFFF">@Strings.whiteCol</listEntry>
+			<listEntry value="0x000000">@Strings.blackCol</listEntry>
+			<listEntry value="0x555555">@Strings.dkgrayCol</listEntry>
+			<listEntry value="0xAAAAAA">@Strings.ltgrayCol</listEntry>
+			<listEntry value="0xFF0000">@Strings.redCol</listEntry>
+			<listEntry value="0x0000FF">@Strings.dkblueCol</listEntry>
+			<listEntry value="0x00AAFF">@Strings.blueCol</listEntry>
+			<listEntry value="0x00FF00">@Strings.greenCol</listEntry>
+			<listEntry value="0xFF5500">@Strings.orangeCol</listEntry>
+			<listEntry value="0xFF00FF">@Strings.pinkCol</listEntry>
+			<listEntry value="0xAA0000">@Strings.dkredCol</listEntry>
+			<listEntry value="0xFFAA00">@Strings.yellowCol</listEntry>
+			<listEntry value="0x00AA00">@Strings.dkgreenCol</listEntry>
+			<listEntry value="0xAA00FF">@Strings.purpleCol</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.bg" title="@Strings.bg"
+		prompt="@Strings.colPrompt">
+		<settingConfig type="list">
+			<listEntry value="0x000000">@Strings.blackCol</listEntry>
+			<listEntry value="0x555555">@Strings.dkgrayCol</listEntry>
+			<listEntry value="0xAAAAAA">@Strings.ltgrayCol</listEntry>
+			<listEntry value="0xFF0000">@Strings.redCol</listEntry>
+			<listEntry value="0x0000FF">@Strings.dkblueCol</listEntry>
+			<listEntry value="0x00AAFF">@Strings.blueCol</listEntry>
+			<listEntry value="0x00FF00">@Strings.greenCol</listEntry>
+			<listEntry value="0xFF5500">@Strings.orangeCol</listEntry>
+			<listEntry value="0xFF00FF">@Strings.pinkCol</listEntry>
+			<listEntry value="0xFFFFFF">@Strings.whiteCol</listEntry>
+			<listEntry value="0xAA0000">@Strings.dkredCol</listEntry>
+			<listEntry value="0xFFAA00">@Strings.yellowCol</listEntry>
+			<listEntry value="0x00AA00">@Strings.dkgreenCol</listEntry>
+			<listEntry value="0xAA00FF">@Strings.purpleCol</listEntry>
+		</settingConfig>
+	</setting>
+	
+	<setting propertyKey="@Properties.count" title="@Strings.count">
+		<settingConfig type="numeric" readonly="false" min="0" max="28"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.analog" title="@Strings.analog">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.batdot" title="@Strings.batdot">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+	
+	<setting propertyKey="@Properties.alwayson" title="@Strings.alwayson">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+
+</settings>

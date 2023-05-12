@@ -1,0 +1,27 @@
+<strings>
+	<string id="appName">Name</string>
+	<string id="appVersion">Version</string>
+	<string id="AppName">dotter</string>
+	<string id="fg">fg color</string>
+	<string id="bg">bg color</string>
+	<string id="count">time count for date when awake</string>
+	<string id="analog">analog</string>
+	<string id="batdot">battery dots, else numbers</string>
+	<string id="alwayson">show all, all the time</string>
+	<string id="colPrompt">Pick a color</string>
+	<string id="blackCol">black</string>
+	<string id="whiteCol">white</string>
+	<string id="ltgrayCol">light gray</string>
+	<string id="dkgrayCol">dark gray</string>
+	<string id="blueCol">blue</string>
+	<string id="dkblueCol">dark blue</string>
+	<string id="pinkCol">pink</string>
+	<string id="redCol">red</string>
+	<string id="greenCol">green</string>
+	<string id="orangeCol">orange</string>
+	<string id="dkredCol">dark red</string>
+	<string id="yellowCol">yellow</string>
+	<string id="dkgreenCol">dark green</string>
+	<string id="purpleCol">purple</string>
+
+</strings>
