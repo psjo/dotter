@@ -56,12 +56,13 @@
 		<settingConfig type="boolean" readonly="false"/>
 	</setting>
 	
-	<setting propertyKey="@Properties.batdot" title="@Strings.batdot">
-		<settingConfig type="boolean" readonly="false"/>
-	</setting>
-	
 	<setting propertyKey="@Properties.alwayson" title="@Strings.alwayson">
 		<settingConfig type="boolean" readonly="false"/>
 	</setting>
-
+	
+	<setting propertyKey="@Properties.batdot" title="@Strings.batdot">
+		<settingConfig type="boolean" readonly="false"/>
+	</setting>
+        <!--
+        -->
 </settings>

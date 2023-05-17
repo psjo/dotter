@@ -6,7 +6,7 @@
 	<string id="bg">bg color</string>
 	<string id="count">time count for date when awake</string>
 	<string id="analog">analog</string>
-	<string id="batdot">battery dots, else numbers</string>
+	<string id="batdot">no dots</string>
 	<string id="alwayson">show all, all the time</string>
 	<string id="colPrompt">Pick a color</string>
 	<string id="blackCol">black</string>

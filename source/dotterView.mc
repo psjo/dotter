@@ -7,22 +7,23 @@ using Toybox.Time.Gregorian as Cal;
 using Toybox.Math as Math;
 
 class dotterView extends Ui.WatchFace {
-	var version = "0.0.0.1";
 	var load = true;
 	var on = true;
 	var batdot = true;
 	var analog = true;
 	var is24 = true;
-	var alwayson = true;
+	var alwayson = false;
 	var colon = 0;
 	var timer = 9;
 	var countdown = timer;
 	var dott = 3, dotd = 1, dotts = 2;
 	var w, h, w2, h2;
+	/*
 	var fg = Gfx.COLOR_BLACK;
 	var bg = Gfx.COLOR_WHITE;
-	/*
 	*/
+	var fg = Gfx.COLOR_WHITE;
+	var bg = Gfx.COLOR_BLACK;
 	var size_day_name = 2;
 	var size_month = 2;
 	var size_day_date = 2;
@@ -156,10 +157,7 @@ class dotterView extends Ui.WatchFace {
 		//date perhaps
 		var day = now.day;
 		var mon = now.month;
-		var y = h2 - 70;
-		if (batdot) {
-			y -= 5;
-		}
+		var y = h2 - 75;
 		drawSNum(dc, day/10, w2 - 74, y, 5, size);
 		drawSNum(dc, day%10, w2 - 47, y, 5, size);
 
@@ -169,45 +167,64 @@ class dotterView extends Ui.WatchFace {
 		drawDay(dc, size_day_name, day);
 	}
 
+	/*
+	 * TODO: change color when it gets to like twenty percent...
+  	 */
 	function drawBat(dc, size) {
 		var bat = Sys.getSystemStats().battery.toNumber();
-
-		if (batdot) {
-			var rad = 2;
-			bat = bat / 5; //20;
-			var start = w2 - 59;
-			var pad = 6; //25;
-			for (var i = 0; i < bat && i < 20; i += 1) {
-				dc.fillCircle(start + i * pad, 1, rad);
-			}
-			for (var i = bat; i < 20; i += 1) {
-				dc.drawCircle(start + i * pad, 1, rad);
-			}
-		} else {
-			var pad = 0;
-
-			if (bat > 99) {
-				drawSNum(dc, bat/100, w2 - 44, h2 - 100, 4, size);
-			}
-			if (bat > 9) {
-				drawSNum(dc, bat/10%10, w2 - 23, h2 - 100, 4, size);
-				pad += 20;
-			}
-			drawSNum(dc, bat%10, w2 - 20 + pad, h2 - 100, 4, size);
-			drawSNum(dc, 24, w2 + 3 + pad, h2 - 100, 4, size);
+		if (bat < 20) {
+			dc.setColor(Gfx.COLOR_PINK, -1);
 		}
+
+		var rad = 4;
+		bat = bat / 5; //20;
+		var start = w2 - 59;
+		var pad = 6; //25;
+		for (var i = 0; i < bat && i < 20; i += 1) {
+			//if (batdot) {
+			dc.fillCircle(start + i * pad, 1, rad);
+			//} else {
+			//dc.fillRectangle(start + i * pad, 1, rad); //TODO
+			//}
+		}
+		for (var i = bat; i < 20; i += 1) {
+			dc.drawCircle(start + i * pad, 1, rad);
+		}
+		//} else {
+		//	var pad = 0;
+
+		//	if (bat > 99) {
+		//		drawSNum(dc, bat/100, w2 - 44, h2 - 100, 4, size);
+		//	}
+		//	if (bat > 9) {
+		//		drawSNum(dc, bat/10%10, w2 - 23, h2 - 100, 4, size);
+		//		pad += 20;
+		//	}
+		//	drawSNum(dc, bat%10, w2 - 20 + pad, h2 - 100, 4, size);
+		//	drawSNum(dc, 24, w2 + 3 + pad, h2 - 100, 4, size);
+		//if (batdot && (bat < 100)) {
+		//	/* not finished */
+		//	var pad = 0;
+		//	if (bat > 9) {
+		//		drawSNum(dc, bat/10%10, w2 + 23, h2 + 50, 4, size);
+		//		pad += 20;
+		//	}
+		//	drawSNum(dc, bat%10, w2 + 30 + pad, h2 + 50, 4, size);
+		//	drawSNum(dc, 24, w2 + 50 + pad, h2 + 50, 4, size);
+		//}
+		if (bat < 20) {
+			dc.setColor(fg, bg);
+		}
+
 	}
 
 	function drawMonthLetters(dc, size, first, second, third) {
 		var pad = 5;
-		var y = h2 - 68;
+		var y = h2 - 75;
 		var off = 29;
-		var off1 = w2 - 2;
+		var off1 = w2 - 4;
 		var off2 = off1 + off;
 		var off3 = off2 + off;
-		if (batdot) {
-			y -= 5;
-		}
 		drawSNum(dc, first, off1, y, pad, size);
 		drawSNum(dc, second, off2, y, pad, size);
 		drawSNum(dc, third, off3, y, pad, size);
@@ -245,6 +262,7 @@ class dotterView extends Ui.WatchFace {
 		var pad = 5;
 		var y = h2 + 50;
 		var off = 32;
+		//var off1 = w2 - 70;
 		var off1 = w2 - 42;
 		var off2 = off1 + off;
 		var off3 = off2 + off;
@@ -274,7 +292,7 @@ class dotterView extends Ui.WatchFace {
 	function drawMsg(dc) {
 		var settings = Sys.getDeviceSettings();
 		var start = w2 - 59;
-		var end = w2 + 60;
+		var end = w2 + 62;
 		var rad = 2;
 		if (settings.notificationCount) {
 			//for (var i = h - 22; i < h; i += 6) {
@@ -290,7 +308,8 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawAnalog(dc) {
-		var hand = [ w2 - 6, w2 - 14, w2 - 22, w2 - 30 ];
+		var hand = [ h2 - 6, h2 - 14, h2 - 22, h2 - 30 ];
+		//var hand = [ w2 - 6, w2 - 14, w2 - 22, w2 - 30 ];
 		var now = Sys.getClockTime();
 		var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
 		var min = Math.PI * now.min / 30.0;
@@ -321,7 +340,7 @@ class dotterView extends Ui.WatchFace {
 		for (var i = 0; i < 7; i += 1) {
 			for (var j = 0; j < 5; j += 1) {
 				if (block[ numS[nr][i] ][ j ]) {
-					dc.fillCircle(x+j*padx, y+i*pady, size);
+					dc.fillCircle(x + j * padx, y + i * pady, size);
 				}
 			}
 		}
@@ -332,31 +351,26 @@ class dotterView extends Ui.WatchFace {
 
 	function onExitSleep() {
 		on = true;
-		countdown = timer;
 	}
 
 	function onEnterSleep() {
-		//on = false;
+		countdown = timer;
+		on = alwayson;
 	}
 
+	/* Get settings and watchface properties */
 	function getS() {
 		var settings = Sys.getDeviceSettings();
 		is24 = settings.is24Hour;
 
 		var app = App.getApp();
 		analog = app.Properties.getValue("analog");
-		//fg = app.Properties.getValue("fg").toNumber();
-		//bg = app.Properties.getValue("bg").toNumber();
+		fg = app.Properties.getValue("fg").toNumber();
+		bg = app.Properties.getValue("bg").toNumber();
 		timer = app.Properties.getValue("count").toNumber();
 		batdot = app.Properties.getValue("batdot");
 		alwayson = app.Properties.getValue("alwayson");
 		/*
-		   var app = App.getApp();
-		   analog = app.getProperty("analog");
-		   fg = app.getProperty("fg").toNumber();
-		   bg = app.getProperty("bg").toNumber();
-		   timer = app.getProperty("count").toNumber();
-		   batdot = app.getProperty("batdot");
 		 */
 	}
 }
