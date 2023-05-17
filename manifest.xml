@@ -14,7 +14,7 @@ beta id:
         minSdkVersion="1.2.0"
         name="@Strings.AppName"
         type="watchface"
-        version="0.0.0.3"
+        version="0.0.0.4"
         >
         <iq:products>
             <iq:product id="fr735xt"/>

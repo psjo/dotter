@@ -181,37 +181,11 @@ class dotterView extends Ui.WatchFace {
 		var start = w2 - 59;
 		var pad = 6; //25;
 		for (var i = 0; i < bat && i < 20; i += 1) {
-			//if (batdot) {
 			dc.fillCircle(start + i * pad, 1, rad);
-			//} else {
-			//dc.fillRectangle(start + i * pad, 1, rad); //TODO
-			//}
 		}
 		for (var i = bat; i < 20; i += 1) {
 			dc.drawCircle(start + i * pad, 1, rad);
 		}
-		//} else {
-		//	var pad = 0;
-
-		//	if (bat > 99) {
-		//		drawSNum(dc, bat/100, w2 - 44, h2 - 100, 4, size);
-		//	}
-		//	if (bat > 9) {
-		//		drawSNum(dc, bat/10%10, w2 - 23, h2 - 100, 4, size);
-		//		pad += 20;
-		//	}
-		//	drawSNum(dc, bat%10, w2 - 20 + pad, h2 - 100, 4, size);
-		//	drawSNum(dc, 24, w2 + 3 + pad, h2 - 100, 4, size);
-		//if (batdot && (bat < 100)) {
-		//	/* not finished */
-		//	var pad = 0;
-		//	if (bat > 9) {
-		//		drawSNum(dc, bat/10%10, w2 + 23, h2 + 50, 4, size);
-		//		pad += 20;
-		//	}
-		//	drawSNum(dc, bat%10, w2 + 30 + pad, h2 + 50, 4, size);
-		//	drawSNum(dc, 24, w2 + 50 + pad, h2 + 50, 4, size);
-		//}
 		if (bat < 20) {
 			dc.setColor(fg, bg);
 		}
@@ -308,8 +282,7 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawAnalog(dc) {
-		var hand = [ h2 - 6, h2 - 14, h2 - 22, h2 - 30 ];
-		//var hand = [ w2 - 6, w2 - 14, w2 - 22, w2 - 30 ];
+		var hand = [ w2 - 24, w2 - 32, w2 - 40, w2 - 48 ];
 		var now = Sys.getClockTime();
 		var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
 		var min = Math.PI * now.min / 30.0;
@@ -317,17 +290,33 @@ class dotterView extends Ui.WatchFace {
 		var y = w2 - hand[1]*Math.cos( hour );
 		dc.setColor(fg, -1);
 		dc.fillCircle(x, y, 5);
+		/* placement
+		for (var i = 0; i < 12; i += 1) {
+			x = w2 + hand[1]*Math.sin( Math.PI/6.0 * i );
+			y = h2 - hand[1]*Math.cos( Math.PI/6.0 * i );
+			dc.fillCircle(x, y, 5);
+		}
+		//min
+		for (var i = 0; i < 60; i += 5) {
+			x = w2 + hand[0]*Math.sin( Math.PI * i / 30.0 );
+			y = h2 - hand[0]*Math.cos( Math.PI * i / 30.0 );
+			dc.fillCircle(x, y, 3);
+			x = w2 + hand[1]*Math.sin( Math.PI * i / 30.0 );
+			y = h2 - hand[1]*Math.cos( Math.PI * i / 30.0 );
+			dc.fillCircle(x, y, 3);
+		}
+		 end */
 
 		x = w2 + hand[0]*Math.sin( min );
-		y = w2 - hand[0]*Math.cos( min );
+		y = h2 - hand[0]*Math.cos( min );
 		dc.fillCircle(x, y, 3);
 		x = w2 + hand[1]*Math.sin( min );
-		y = w2 - hand[1]*Math.cos( min );
+		y = h2 - hand[1]*Math.cos( min );
 		dc.fillCircle(x, y, 3);
 
 		if (Sys.getDeviceSettings().notificationCount) {
 			x = w2 + hand[2]*Math.sin( min );
-			y = w2 - hand[2]*Math.cos( min );
+			y = h2 - hand[2]*Math.cos( min );
 			dc.fillCircle(x, y, 3);
 		}
 	}

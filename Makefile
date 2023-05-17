@@ -36,9 +36,6 @@ connect:
 	$(info run shell script to start sim)
 	@$(shell ./script/sim.sh ${SDK_HOME} sim)
 
-resim: killmonkeydo build
-	@$(shell ./script/sim.sh ${SDK_HOME} mon ${BIN} ${DEVICE})
-
 sim: build killmonkeydo
 	$(info run shell script to start watch)
 	@$(shell ./script/sim.sh ${SDK_HOME} mon ${BIN} ${DEVICE})
@@ -57,8 +54,8 @@ run: build
 clean:
 	@rm -f bin/$(appName).prg
 
-deploy: build
-	@cp bin/$(appName).prg $(DEPLOY)
+deploy: package
+	@cp bin/$(appName).iq ${DEPLOY}/${appName}.version.iq
 
 pkg: info
 	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} ${MONKEYC_PKG}

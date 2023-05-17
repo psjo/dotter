@@ -1,6 +1,6 @@
 <properties>
 	<property id="appName" type="string">the dotter</property>
-	<property id="appVersion" type="string">20230517.2</property>
+	<property id="appVersion" type="string">20230517.3</property>
 	<property id="fg" type="number">0xFFFFFF</property>
 	<property id="bg" type="number">0x000000</property>
 	<property id="count" type="number">20</property>
