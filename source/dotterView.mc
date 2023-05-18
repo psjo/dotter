@@ -7,12 +7,21 @@ using Toybox.Time.Gregorian as Cal;
 using Toybox.Math as Math;
 
 class dotterView extends Ui.WatchFace {
+	/* const */
+	//const ON_MASK = 1;
+	//const DOT_MASK = 2;
+	//const ANALOG_MASK = 4;
+	//const IS24_MASK = 8;
+	//const ALWAYSON_MASK = 16;
+	//const _MASK = 32;
+	/* var */
+	var thesetting = 0;
 	var load = true;
 	var on = true;
 	var batdot = true;
 	var analog = true;
-	var digstart = 21;
-	var duration = 0;
+	var digstart = 0;
+	//var duration = 0;
 	var is24 = true;
 	var alwayson = false;
 	var colon = 0;
@@ -285,12 +294,9 @@ class dotterView extends Ui.WatchFace {
 
 	function drawAnalog(dc) {
 		var now = Sys.getClockTime();
-		if (duration) {
-			var h = now.hour;
-			if ((h > digstart) && ((digstart + duration) < h)) {
-				drawTime(dc, size_hour, size_min);
-				return;
-			}
+		if (digstart & (1 << now.hour)) {
+			drawTime(dc, size_hour, size_min);
+			return;
 		}
 		var hand = [ w2 - 24, w2 - 32, w2 - 40, w2 - 48 ];
 		var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
@@ -347,12 +353,14 @@ class dotterView extends Ui.WatchFace {
 		on = alwayson;
 	}
 
-	/* Get settings and watchface properties */
 	function getS() {
 		var settings = Sys.getDeviceSettings();
 		is24 = settings.is24Hour;
 
 		var app = App.getApp();
+		var dig = 0;
+		var duration = 0;
+		digstart = 0;
 		if (app has :Storage) {
 			analog = app.Properties.getValue("analog");
 			fg = app.Properties.getValue("fg").toNumber();
@@ -360,8 +368,9 @@ class dotterView extends Ui.WatchFace {
 			timer = app.Properties.getValue("count").toNumber();
 			batdot = app.Properties.getValue("batdot");
 			alwayson = app.Properties.getValue("alwayson");
-			digstart = app.Properties.getValue("digstart");
+			dig = app.Properties.getValue("digstart");
 			duration = app.Properties.getValue("duration");
+			thesetting = app.Properties.getValue("thesetting");
 		} else {
 			analog = app.getProperty("analog");
 			fg = app.getProperty("fg").toNumber();
@@ -369,8 +378,14 @@ class dotterView extends Ui.WatchFace {
 			timer = app.getProperty("count").toNumber();
 			batdot = app.getProperty("batdot");
 			alwayson = app.getProperty("alwayson");
-			digstart = app.getProperty("digstart");
+			dig = app.getProperty("digstart");
 			duration = app.getProperty("duration");
+			thesetting = app.getProperty("thesetting");
+		}
+		if (duration) {
+			for (var i = dig; i < (dig + duration); i += 1) {
+				digstart |= 1 << (i % 24);
+			}
 		}
 		/*
 		 */

@@ -70,6 +70,9 @@
 	<setting propertyKey="@Properties.duration" title="@Strings.duration">
 		<settingConfig type="numeric" readonly="false" min="0" max="23"/>
 	</setting>
+	<setting propertyKey="@Properties.thesetting" title="@Strings.thesetting">
+		<settingConfig type="numeric" readonly="false" min="0" max="4096"/>
+	</setting>
         <!--
         -->
 </settings>

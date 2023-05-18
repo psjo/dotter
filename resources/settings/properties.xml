@@ -1,6 +1,6 @@
 <properties>
 	<property id="appName" type="string">the dotter</property>
-	<property id="appVersion" type="string">20230518</property>
+	<property id="appVersion" type="string">20230518.2</property>
 	<property id="fg" type="number">0xFFFFFF</property>
 	<property id="bg" type="number">0x000000</property>
 	<property id="count" type="number">20</property>
@@ -9,6 +9,7 @@
 	<property id="batdot" type="boolean">true</property>
 	<property id="digstart" type="number">21</property>
 	<property id="duration" type="number">10</property>
+	<property id="thesetting" type="number">0</property>
         <!--
         -->
 </properties>
