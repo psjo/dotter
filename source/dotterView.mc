@@ -11,6 +11,8 @@ class dotterView extends Ui.WatchFace {
 	var on = true;
 	var batdot = true;
 	var analog = true;
+	var digstart = 21;
+	var duration = 0;
 	var is24 = true;
 	var alwayson = false;
 	var colon = 0;
@@ -282,30 +284,21 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawAnalog(dc) {
-		var hand = [ w2 - 24, w2 - 32, w2 - 40, w2 - 48 ];
 		var now = Sys.getClockTime();
+		if (duration) {
+			var h = now.hour;
+			if ((h > digstart) && ((digstart + duration) < h)) {
+				drawTime(dc, size_hour, size_min);
+				return;
+			}
+		}
+		var hand = [ w2 - 24, w2 - 32, w2 - 40, w2 - 48 ];
 		var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
 		var min = Math.PI * now.min / 30.0;
 		var x = w2 + hand[1]*Math.sin( hour );
 		var y = w2 - hand[1]*Math.cos( hour );
 		dc.setColor(fg, -1);
 		dc.fillCircle(x, y, 5);
-		/* placement
-		for (var i = 0; i < 12; i += 1) {
-			x = w2 + hand[1]*Math.sin( Math.PI/6.0 * i );
-			y = h2 - hand[1]*Math.cos( Math.PI/6.0 * i );
-			dc.fillCircle(x, y, 5);
-		}
-		//min
-		for (var i = 0; i < 60; i += 5) {
-			x = w2 + hand[0]*Math.sin( Math.PI * i / 30.0 );
-			y = h2 - hand[0]*Math.cos( Math.PI * i / 30.0 );
-			dc.fillCircle(x, y, 3);
-			x = w2 + hand[1]*Math.sin( Math.PI * i / 30.0 );
-			y = h2 - hand[1]*Math.cos( Math.PI * i / 30.0 );
-			dc.fillCircle(x, y, 3);
-		}
-		 end */
 
 		x = w2 + hand[0]*Math.sin( min );
 		y = h2 - hand[0]*Math.cos( min );
@@ -318,6 +311,13 @@ class dotterView extends Ui.WatchFace {
 			x = w2 + hand[2]*Math.sin( min );
 			y = h2 - hand[2]*Math.cos( min );
 			dc.fillCircle(x, y, 3);
+		}
+		if (batdot) {
+			for (var i = 0; i < 60; i += 5) {
+				x = w2 + hand[0]*Math.sin( Math.PI * i / 30.0 );
+				y = h2 - hand[0]*Math.cos( Math.PI * i / 30.0 );
+				dc.drawCircle(x, y, 2);
+			}
 		}
 	}
 
@@ -353,12 +353,25 @@ class dotterView extends Ui.WatchFace {
 		is24 = settings.is24Hour;
 
 		var app = App.getApp();
-		analog = app.Properties.getValue("analog");
-		fg = app.Properties.getValue("fg").toNumber();
-		bg = app.Properties.getValue("bg").toNumber();
-		timer = app.Properties.getValue("count").toNumber();
-		batdot = app.Properties.getValue("batdot");
-		alwayson = app.Properties.getValue("alwayson");
+		if (app has :Storage) {
+			analog = app.Properties.getValue("analog");
+			fg = app.Properties.getValue("fg").toNumber();
+			bg = app.Properties.getValue("bg").toNumber();
+			timer = app.Properties.getValue("count").toNumber();
+			batdot = app.Properties.getValue("batdot");
+			alwayson = app.Properties.getValue("alwayson");
+			digstart = app.Properties.getValue("digstart");
+			duration = app.Properties.getValue("duration");
+		} else {
+			analog = app.getProperty("analog");
+			fg = app.getProperty("fg").toNumber();
+			bg = app.getProperty("bg").toNumber();
+			timer = app.getProperty("count").toNumber();
+			batdot = app.getProperty("batdot");
+			alwayson = app.getProperty("alwayson");
+			digstart = app.getProperty("digstart");
+			duration = app.getProperty("duration");
+		}
 		/*
 		 */
 	}

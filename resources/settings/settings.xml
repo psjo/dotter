@@ -63,6 +63,13 @@
 	<setting propertyKey="@Properties.batdot" title="@Strings.batdot">
 		<settingConfig type="boolean" readonly="false"/>
 	</setting>
+
+	<setting propertyKey="@Properties.digstart" title="@Strings.digstart">
+		<settingConfig type="numeric" readonly="false" min="0" max="23"/>
+	</setting>
+	<setting propertyKey="@Properties.duration" title="@Strings.duration">
+		<settingConfig type="numeric" readonly="false" min="0" max="23"/>
+	</setting>
         <!--
         -->
 </settings>

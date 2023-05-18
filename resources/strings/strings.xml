@@ -23,5 +23,7 @@
 	<string id="yellowCol">yellow</string>
 	<string id="dkgreenCol">dark green</string>
 	<string id="purpleCol">purple</string>
+	<string id="digstart">start</string>
+	<string id="duration">duration</string>
 
 </strings>
