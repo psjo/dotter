@@ -12,24 +12,28 @@ class dotterView extends Ui.WatchFace {
 	//const DOT_MASK = 2;
 	//const ANALOG_MASK = 4;
 	//const IS24_MASK = 8;
-	//const ALWAYSON_MASK = 16;
-	//const _MASK = 32;
+	//const DATE_MASK = 16;
+	//const DAY_MASK = 32;
+	//const BAT_MASK = 64;
+	//const CON_MASK = 128;
+	//const _MASK = 256;
+	//const _MASK = 512;
+	//const _MASK = 1024;
+	//const ALWAYSON_MASK = DATE_MASK | DAY_MASK | BAT_MASK | CON_MASK;
 	/* var */
-	var thesetting = 0;
-	var load = true;
-	var on = true;
-	var batdot = true;
-	var analog = true;
-	var digstart = 0;
-	//var duration = 0;
-	var is24 = true;
-	var alwayson = false;
-	var colon = 0;
-	var timer = 9;
+	var thesetting = 0; // ON_MASK | 
+	var load = true;    // load settings
+	var on = true;      // something
+	var batdot = true;  // five min dots on analog I think
+	var analog = true;  // analog watchface in lpm
+	var digstart = 0;   // to know when to show digital
+	var is24 = true;    // YES
+	var alwayson = false; // everything every time
+	var timer = 9;        // ...
 	var countdown = timer;
-	var dott = 3, dotd = 1, dotts = 2;
-	var w, h, w2, h2;
-	/*
+	var dotsize = 4;
+	var w, h, w2, h2;    // width, height, halfwhit
+	/* invert to see screen size in simulator
 	var fg = Gfx.COLOR_BLACK;
 	var bg = Gfx.COLOR_WHITE;
 	*/
@@ -38,8 +42,6 @@ class dotterView extends Ui.WatchFace {
 	var size_day_name = 2;
 	var size_month = 2;
 	var size_day_date = 2;
-	var size_hour = 4;
-	var size_min = 4;
 
 	// building blocks for numbers and ....
 	var block = [ [ 0, 0, 0, 0, 0 ],   // 0
@@ -119,18 +121,27 @@ class dotterView extends Ui.WatchFace {
 		}
 		dc.setColor(fg, bg);
 		dc.clear();
+		// I whish I had a fancy watch that supported this...
+		//var stat = Sys.getSystemStats();
+		//if (stat has :charging && stat.charging == true) {
+		//	if (stat.battery.toNumber() > 95) {
+		//		dc.fillCircle(w - 42, h - 28, 9);
+		//	} else {
+		//		dc.drawCircle(w - 42, h - 28, 9);
+		//	}
+		//}
 		if (on) {
-			drawTime(dc, size_hour, size_min);
+			drawTime(dc, dotsize, dotsize);
 			if (alwayson || (countdown > 0)) {
 				drawDate(dc, size_day_date);
-				drawBat(dc, dotd);
+				drawBat(dc, dotsize);
 				countdown -= 1;
 			}
 			drawMsg(dc);
 		} else if (analog) {
 			drawAnalog(dc);
 		} else {
-			drawTime(dc, dotts, dotts);
+			drawTime(dc, dotsize - 1, dotsize - 1);
 		}
 	}
 
@@ -155,9 +166,6 @@ class dotterView extends Ui.WatchFace {
 		// hour
 		drawSNumPad(dc, hour/10, w2 - 94, hoff, padx, pady, size_h);
 		drawSNumPad(dc, hour%10, w2 - 44, hoff, padx, pady, size_h);
-		//if (colon) {
-		//	drawSNumPad(dc, 10, w2 - 18, hoff, padx, pady, size); // :
-		//}
 		// minutes
 		drawSNumPad(dc, min/10, w2 + 8, hoff, padx, pady, size_m);
 		drawSNumPad(dc, min%10, w2 + 58, hoff, padx, pady, size_m);
@@ -181,13 +189,13 @@ class dotterView extends Ui.WatchFace {
 	/*
 	 * TODO: change color when it gets to like twenty percent...
   	 */
-	function drawBat(dc, size) {
+	function drawBat(dc, rad) {
 		var bat = Sys.getSystemStats().battery.toNumber();
 		if (bat < 20) {
 			dc.setColor(Gfx.COLOR_PINK, -1);
 		}
 
-		var rad = 4;
+		//var rad = size;
 		bat = bat / 5; //20;
 		var start = w2 - 59;
 		var pad = 6; //25;
@@ -198,7 +206,7 @@ class dotterView extends Ui.WatchFace {
 			dc.drawCircle(start + i * pad, 1, rad);
 		}
 		if (bat < 20) {
-			dc.setColor(fg, bg);
+			dc.setColor(fg, -1);
 		}
 
 	}
@@ -295,14 +303,14 @@ class dotterView extends Ui.WatchFace {
 	function drawAnalog(dc) {
 		var now = Sys.getClockTime();
 		if (digstart & (1 << now.hour)) {
-			drawTime(dc, size_hour, size_min);
+			drawTime(dc, dotsize, dotsize);
 			return;
 		}
 		var hand = [ w2 - 24, w2 - 32, w2 - 40, w2 - 48 ];
 		var hour = Math.PI/6.0 * ((now.hour % 12) + now.min/60.0);
 		var min = Math.PI * now.min / 30.0;
 		var x = w2 + hand[1]*Math.sin( hour );
-		var y = w2 - hand[1]*Math.cos( hour );
+		var y = h2 - hand[1]*Math.cos( hour );
 		dc.setColor(fg, -1);
 		dc.fillCircle(x, y, 5);
 
@@ -319,9 +327,9 @@ class dotterView extends Ui.WatchFace {
 			dc.fillCircle(x, y, 3);
 		}
 		if (batdot) {
-			for (var i = 0; i < 60; i += 5) {
-				x = w2 + hand[0]*Math.sin( Math.PI * i / 30.0 );
-				y = h2 - hand[0]*Math.cos( Math.PI * i / 30.0 );
+			for (var i = 0; i < 12; i += 1) {
+				x = w2 + hand[0]*Math.sin( Math.PI * i / 6.0 );
+				y = h2 - hand[0]*Math.cos( Math.PI * i / 6.0 );
 				dc.drawCircle(x, y, 2);
 			}
 		}

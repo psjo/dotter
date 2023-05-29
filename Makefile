@@ -1,13 +1,13 @@
 include environment.mk
-# at some point, clean this mess up...
+# at some point, in the future, clean this mess up...
 appName = appName
 DEVICE ?= fr735xt
 devices = $(shell grep 'iq:product id=' manifest.xml | sed 's/.*iq:product id="\([^"]*\).*/\1/')
 version = $(shell date +%Y%m%d%H%M)
-JAVA_OPTIONS += JDK_JAVA_OPTIONS="--add-modules=java.xml.bind"
 KEY_DIR ?= .key
 PWD = $(shell pwd)
-BIN=${PWD}/bin/${appName}.prg
+BIN_DIR = bin
+BIN=${PWD}/${BIN_DIR}/${appName}.prg
 
 MONKEYC_FLAG = --jungles ./monkey.jungle \
 	       --private-key ${PRIVATE_KEY} \
@@ -15,9 +15,9 @@ MONKEYC_FLAG = --jungles ./monkey.jungle \
 	       -l 0
 
 MONKEYC_BLD = --device ${DEVICE} \
-	       --output bin/${appName}.prg
+	       --output ${BIN_DIR}/${appName}.prg
 
-MONKEYC_PKG = --output bin/${appName}.iq \
+MONKEYC_PKG = --output ${BIN_DIR}/${appName}.iq \
 	      --package-app \
 	      --release
 
@@ -32,13 +32,13 @@ info:
 	$(info sdk:  ${SDK_HOME})
 	$(info app version:  ${version})
 
-connect:
-	$(info run shell script to start sim)
-	@$(shell ./script/sim.sh ${SDK_HOME} sim)
+sim:
+	$(info run shell script to start simulator)
+	@$(shell ./script/sim.sh ${SDK_HOME} simulator)
 
-sim: build killmonkeydo
+run: build killmonkeydo
 	$(info run shell script to start watch)
-	@$(shell ./script/sim.sh ${SDK_HOME} mon ${BIN} ${DEVICE})
+	@$(shell ./script/sim.sh ${SDK_HOME} run ${BIN} ${DEVICE})
 
 killmonkeydo:
 	$(shell pkill monkeydo)
@@ -46,16 +46,11 @@ killmonkeydo:
 killsim: killmonkeydo
 	$(shell pkill simulator)
 
-run: build
-	"$(SDK_HOME)/bin/connectiq" &&\
-	sleep 3 && \
-	$(SDK_HOME)bin/monkeydo bin/$(appName).prg $(DEVICE)
-
 clean:
-	@rm -f bin/$(appName).prg
+	@rm -f ${BIN_DIR}/$(appName).prg
 
 deploy: package
-	@cp bin/$(appName).iq ${DEPLOY}/${appName}.version.iq
+	@cp ${BIN_DIR}/$(appName).iq ${DEPLOY}/${appName}.version.iq
 
 pkg: info
 	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} ${MONKEYC_PKG}
@@ -63,12 +58,6 @@ pkg: info
 build: bld info
 
 package: pkg
-
-test: build
-	@$(SDK_HOME)/bin/connectiq &&\
-	sleep 3 &&\
-	$(JAVA_OPTIONS) \
-	"$(SDK_HOME)/bin/monkeydo" bin/$(appName).prg $(DEVICE) -t testSortExchange
 
 gendevkey:
 	$(info this might work, needs testing)
@@ -78,10 +67,9 @@ gendevkey:
 
 build-debug: info
 	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} \
-	-o bin/$(appName).prg \
+	-o ${BIN_DIR}/$(appName).prg \
 	-d $(DEVICE)_sim \
-	--debug \
-	-w -l 0 
+	--debug
 
 uuidgen:
 	$(info make uuid for manifest.xml)
@@ -92,5 +80,7 @@ buildall:
 	@$(shell for device in ${devices}; do \
 	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} \
 		--device $$device \
-		--output bin/$(appName).$$device.prg; \
+		--output ${BIN_DIR}/$(appName).$$device.prg; \
 	done)
+
+.PHONY: default killsim killmonkeydo uuidgen test package build info clean
