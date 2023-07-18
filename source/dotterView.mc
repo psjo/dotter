@@ -387,7 +387,7 @@ class dotterView extends Ui.WatchFace {
 		 * surprise
 		 */
 		if (thesetting & 1) {
-			var d = (thesetting << 1) & 3;
+			var d = (thesetting >> 1) & 3;
 			dotsize_lpm = d ? d : 4;
 		}
 	}
