@@ -3,6 +3,9 @@
 ## devices 
 
  - fr735xt screen 215x180, icon 40x40
+ - fr230
+ - fr235
+ - fr630
 
 ## make
 

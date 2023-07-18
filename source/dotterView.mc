@@ -7,19 +7,6 @@ using Toybox.Time.Gregorian as Cal;
 using Toybox.Math as Math;
 
 class dotterView extends Ui.WatchFace {
-	/* const */
-	//const ON_MASK = 1;
-	//const DOT_MASK = 2;
-	//const ANALOG_MASK = 4;
-	//const IS24_MASK = 8;
-	//const DATE_MASK = 16;
-	//const DAY_MASK = 32;
-	//const BAT_MASK = 64;
-	//const CON_MASK = 128;
-	//const _MASK = 256;
-	//const _MASK = 512;
-	//const _MASK = 1024;
-	//const ALWAYSON_MASK = DATE_MASK | DAY_MASK | BAT_MASK | CON_MASK;
 	/* var */
 	var thesetting = 0; // ON_MASK | 
 	var load = true;    // load settings
@@ -32,8 +19,9 @@ class dotterView extends Ui.WatchFace {
 	var timer = 9;        // ...
 	var countdown = timer;
 	var dotsize = 4;
+	var dotsize_lpm = 3;
 	var w, h, w2, h2;    // width, height, halfwhit
-	/* invert to see screen size in simulator
+	/* invert colors to see screen size in simulator
 	var fg = Gfx.COLOR_BLACK;
 	var bg = Gfx.COLOR_WHITE;
 	*/
@@ -141,7 +129,7 @@ class dotterView extends Ui.WatchFace {
 		} else if (analog) {
 			drawAnalog(dc);
 		} else {
-			drawTime(dc, dotsize - 1, dotsize - 1);
+			drawTime(dc, dotsize_lpm, dotsize_lpm);
 		}
 	}
 
@@ -396,6 +384,11 @@ class dotterView extends Ui.WatchFace {
 			}
 		}
 		/*
+		 * surprise
 		 */
+		if (thesetting & 1) {
+			var d = (thesetting << 1) & 3;
+			dotsize_lpm = d ? d : 4;
+		}
 	}
 }

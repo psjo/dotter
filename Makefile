@@ -1,6 +1,6 @@
 include environment.mk
 # at some point, in the future, clean this mess up...
-appName = appName
+appName = dotter
 DEVICE ?= fr735xt
 devices = $(shell grep 'iq:product id=' manifest.xml | sed 's/.*iq:product id="\([^"]*\).*/\1/')
 version = $(shell date +%Y%m%d%H%M)
@@ -50,7 +50,7 @@ clean:
 	@rm -f ${BIN_DIR}/$(appName).prg
 
 deploy: package
-	@cp ${BIN_DIR}/$(appName).iq ${DEPLOY}/${appName}.version.iq
+	@cp ${BIN_DIR}/$(appName).iq ${DEPLOY}/${appName}.${version}.iq
 
 pkg: info
 	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} ${MONKEYC_PKG}
