@@ -1,7 +1,8 @@
 include environment.mk
 # at some point, in the future, clean this mess up...
 appName = dotter
-DEVICE ?= fr735xt
+#DEVICE ?= fr735xt
+DEVICE ?= fenix5splus
 devices = $(shell grep 'iq:product id=' manifest.xml | sed 's/.*iq:product id="\([^"]*\).*/\1/')
 version = $(shell date +%Y%m%d%H%M)
 KEY_DIR ?= .key
@@ -24,7 +25,7 @@ MONKEYC_PKG = --output ${BIN_DIR}/${appName}.iq \
 default: bld
 
 bld:
-	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} ${MONKEYC_BLD}
+	@$(sh ${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} ${MONKEYC_BLD})
 
 info:
 	$(info info:  ${})
@@ -33,12 +34,12 @@ info:
 	$(info app version:  ${version})
 
 sim:
-	$(info run shell script to start simulator)
-	@$(shell ./script/sim.sh ${SDK_HOME} simulator)
+	$(info running shell script to start simulator)
+	@$(shell sh ./script/sim.sh ${SDK_HOME} simulator)
 
 run: build killmonkeydo
 	$(info run shell script to start watch)
-	@$(shell ./script/sim.sh ${SDK_HOME} run ${BIN} ${DEVICE})
+	@$(shell sh ./script/sim.sh ${SDK_HOME} run ${BIN} ${DEVICE})
 
 killmonkeydo:
 	$(shell pkill monkeydo)
@@ -78,9 +79,11 @@ uuidgen:
 buildall:
 	$(info devices:  ${devices})
 	@$(shell for device in ${devices}; do \
-	${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} \
-		--device $$device \
-		--output ${BIN_DIR}/$(appName).$$device.prg; \
-	done)
+		${SDK_HOME}/bin/monkeyc  ${MONKEYC_FLAG} \
+			--device $$device \
+			--output ${BIN_DIR}/${appName}.$$device.prg; \
+			echo "Done"; \
+		done)
+	$(info built:  ${devices})
 
-.PHONY: default killsim killmonkeydo uuidgen test package build info clean
+PHONY: default killsim killmonkeydo uuidgen test package build info clean

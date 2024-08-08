@@ -8,6 +8,7 @@ using Toybox.Math as Math;
 
 class dotterView extends Ui.WatchFace {
 	/* var */
+	var sim = 0;
 	var thesetting = 0; // ON_MASK | 
 	var load = true;    // load settings
 	var on = true;      // something
@@ -19,17 +20,15 @@ class dotterView extends Ui.WatchFace {
 	var timer = 9;        // ...
 	var countdown = timer;
 	var dotsize = 4;
-	var dotsize_lpm = 3;
 	var w, h, w2, h2;    // width, height, halfwhit
-	/* invert colors to see screen size in simulator
-	var fg = Gfx.COLOR_BLACK;
-	var bg = Gfx.COLOR_WHITE;
-	*/
 	var fg = Gfx.COLOR_WHITE;
 	var bg = Gfx.COLOR_BLACK;
 	var size_day_name = 2;
 	var size_month = 2;
 	var size_day_date = 2;
+
+	/* the setting */
+	var dotsize_lpm = 3;
 
 	// building blocks for numbers and ....
 	var block = [ [ 0, 0, 0, 0, 0 ],   // 0
@@ -148,15 +147,28 @@ class dotterView extends Ui.WatchFace {
 		if (!is24 && hour > 12) {
 			hour -= 12;
 		}
-		var hoff = h2 - 30;
-		var padx = 9;
-		var pady = 11;
+		var hoff = h2 - 40;
+		var xoffhr = w2 - 112;
+		var xoffhl = w2 - 54;
+		var xoffmr = w2 + 6;
+		var xoffml = w2 + 64;
+		var padx = 11;
+		var pady = 13;
+		if (Sys.getDeviceSettings().screenShape == 2) {
+			hoff = h2 - 30;
+			xoffhr = w2 - 94;
+			xoffhl = w2 - 44;
+			xoffmr = w2 + 8;
+			xoffml = w2 + 58;
+			padx = 9;
+			pady = 11;
+		}
 		// hour
-		drawSNumPad(dc, hour/10, w2 - 94, hoff, padx, pady, size_h);
-		drawSNumPad(dc, hour%10, w2 - 44, hoff, padx, pady, size_h);
+		drawSNumPad(dc, hour/10, xoffhr, hoff, padx, pady, size_h);
+		drawSNumPad(dc, hour%10, xoffhl, hoff, padx, pady, size_h);
 		// minutes
-		drawSNumPad(dc, min/10, w2 + 8, hoff, padx, pady, size_m);
-		drawSNumPad(dc, min%10, w2 + 58, hoff, padx, pady, size_m);
+		drawSNumPad(dc, min/10, xoffmr, hoff, padx, pady, size_m);
+		drawSNumPad(dc, min%10, xoffml, hoff, padx, pady, size_m);
 	}
 
 	function drawDate(dc, size) {
@@ -164,9 +176,19 @@ class dotterView extends Ui.WatchFace {
 		//date perhaps
 		var day = now.day;
 		var mon = now.month;
-		var y = h2 - 75;
-		drawSNum(dc, day/10, w2 - 74, y, 5, size);
-		drawSNum(dc, day%10, w2 - 47, y, 5, size);
+		var xoffr = 82;
+		var xoffl = 50;
+		var yoff = 90;
+		var pad = 6;
+		if (Sys.getDeviceSettings().screenShape == 2) {
+			xoffr = 74;
+			xoffl = 47;
+			yoff = 75;
+			pad = 5;
+		}
+		var y = h2 - yoff;
+		drawSNum(dc, day/10, w2 - xoffr, y, pad, size);
+		drawSNum(dc, day%10, w2 - xoffl, y, pad, size);
 
 		drawMonth(dc, size_month, mon);
 
@@ -187,11 +209,15 @@ class dotterView extends Ui.WatchFace {
 		bat = bat / 5; //20;
 		var start = w2 - 59;
 		var pad = 6; //25;
+		var y = 13;
+		if (Sys.getDeviceSettings().screenShape == 2) { //Sys.SCREEN_SHAPE_SEMI_ROUND) {
+			y = 1;
+		}
 		for (var i = 0; i < bat && i < 20; i += 1) {
-			dc.fillCircle(start + i * pad, 1, rad);
+			dc.fillCircle(start + i * pad, y, rad);
 		}
 		for (var i = bat; i < 20; i += 1) {
-			dc.drawCircle(start + i * pad, 1, rad);
+			dc.drawCircle(start + i * pad, y, rad);
 		}
 		if (bat < 20) {
 			dc.setColor(fg, -1);
@@ -200,12 +226,20 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawMonthLetters(dc, size, first, second, third) {
-		var pad = 5;
-		var y = h2 - 75;
-		var off = 29;
-		var off1 = w2 - 4;
+		var pad = 6;
+		var y = h2 - 90;
+		var off = 32;
+		var off1 = w2 - 14;
 		var off2 = off1 + off;
 		var off3 = off2 + off;
+		if (Sys.getDeviceSettings().screenShape == 2) {
+			pad = 5;
+			y = h2 - 75;
+			off = 29;
+			off1 = w2 - 4;
+			off2 = off1 + off;
+			off3 = off2 + off;
+		}
 		drawSNum(dc, first, off1, y, pad, size);
 		drawSNum(dc, second, off2, y, pad, size);
 		drawSNum(dc, third, off3, y, pad, size);
@@ -240,13 +274,22 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawDayLetters(dc, size, first, second, third) {
-		var pad = 5;
-		var y = h2 + 50;
-		var off = 32;
+		var pad = 7;
+		var y = h2 + 55;
+		var off = 42;
 		//var off1 = w2 - 70;
-		var off1 = w2 - 42;
+		var off1 = w2 - 56;
 		var off2 = off1 + off;
 		var off3 = off2 + off;
+		if (Sys.getDeviceSettings().screenShape == 2) {
+			pad = 5;
+			y = h2 + 50;
+			off = 32;
+			//off1 = w2 - 70;
+			off1 = w2 - 42;
+			off2 = off1 + off;
+			off3 = off2 + off;
+		}
 		drawSNum(dc, first, off1, y, pad, size);
 		drawSNum(dc, second, off2, y, pad, size);
 		drawSNum(dc, third, off3, y, pad, size);
@@ -275,15 +318,20 @@ class dotterView extends Ui.WatchFace {
 		var start = w2 - 59;
 		var end = w2 + 62;
 		var rad = 2;
+		var ypad = -16;
+		if (settings.screenShape == 2) {
+			ypad = -2;
+		}
+		
 		if (settings.notificationCount) {
 			//for (var i = h - 22; i < h; i += 6) {
 			for (var j = start; j < end; j += 6) {
-				dc.fillCircle(j, h - 2, rad);
+				dc.fillCircle(j, h + ypad, rad);
 			}
 			//}
 		} else if (settings.phoneConnected) {
 			for (var j = start; j < end; j += 6) {
-				dc.drawCircle(j, h - 2, rad);
+				dc.drawCircle(j, h + ypad, rad);
 			}
 		}
 	}
@@ -389,6 +437,13 @@ class dotterView extends Ui.WatchFace {
 		if (thesetting & 1) {
 			var d = (thesetting >> 1) & 3;
 			dotsize_lpm = d ? d : 4;
+		}
+		/* 
+		 * invert colors to see screen size in simulator
+		 */
+		if (sim) {
+			fg = Gfx.COLOR_BLACK;
+			bg = Gfx.COLOR_WHITE;
 		}
 	}
 }

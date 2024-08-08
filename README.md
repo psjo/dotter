@@ -6,6 +6,7 @@
  - fr230
  - fr235
  - fr630
+ - fenix5splus 240x240
 
 ## make
 

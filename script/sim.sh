@@ -15,14 +15,16 @@ fi
 case "$CMD" in
 	sim*|con*)
 		sleep 2
-		if ! ps aux | grep -v grep | grep "/bin/simulator" > /dev/null ;
-		then
-			"${SDK_HOME}"bin/connectiq > /dev/null 2>&1 &
+		#if ! ps aux | grep -v grep | grep "/bin/simulator" > /dev/null ;
+		if ! pgrep "/bin/simulator" > /dev/null ; then
+			#sh "${SDK_HOME}"bin/connectiq &
+			sh "${SDK_HOME}"bin/connectiq > /dev/null 2>&1 &
 		fi;
 		sleep 10
 		;;
 	run|mon*)
-		"${SDK_HOME}bin/monkeydo" "$BIN" "$DEVICE" > /dev/null 2>&1 &
+		#sh "${SDK_HOME}bin/monkeydo" "$BIN" "$DEVICE" &
+		sh "${SDK_HOME}bin/monkeydo" "$BIN" "$DEVICE" > /dev/null 2>&1 &
 		;;
 	*)
 		;;
