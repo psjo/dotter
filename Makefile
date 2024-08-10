@@ -2,7 +2,7 @@ include environment.mk
 # at some point, in the future, clean this mess up...
 appName = dotter
 #DEVICE ?= fr735xt
-DEVICE ?= fenix5splus
+DEVICE ?= fenix6s
 devices = $(shell grep 'iq:product id=' manifest.xml | sed 's/.*iq:product id="\([^"]*\).*/\1/')
 version = $(shell date +%Y%m%d%H%M)
 KEY_DIR ?= .key
@@ -32,6 +32,7 @@ info:
 	$(info pkey: ${PRIVATE_KEY})
 	$(info sdk:  ${SDK_HOME})
 	$(info app version:  ${version})
+	$(info app: ${BIN_DIR}/${appName}.iq)
 
 sim:
 	$(info running shell script to start simulator)

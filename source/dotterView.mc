@@ -27,8 +27,40 @@ class dotterView extends Ui.WatchFace {
 	var size_month = 2;
 	var size_day_date = 2;
 
-	/* the setting */
+	/*
+	 * the setting
+	 */
 	var dotsize_lpm = 3;
+
+	/*
+	 * device spec
+	 */
+	var time_yoff;
+	var time_xoffhr;
+	var time_xoffhl;
+	var time_xoffmr;
+	var time_xoffml;
+	var time_padx;
+	var time_pady;
+	var date_xoffr;
+	var date_xoffl;
+	var date_yoff;
+	var date_pad;
+	var bat_x;
+	var bat_pad;
+	var bat_y;
+	var month_pad;
+	var month_y;
+	var month_xoff;
+	var month_xoff1;
+	var day_pad;
+	var day_y;
+	var day_xoff;
+	var day_xoff1;
+	var bt_start;
+	var bt_end;
+	var bt_rad;
+	var bt_ypad;
 
 	// building blocks for numbers and ....
 	var block = [ [ 0, 0, 0, 0, 0 ],   // 0
@@ -96,6 +128,85 @@ class dotterView extends Ui.WatchFace {
 		w2 = w >> 1;
 		h = dc.getHeight();
 		h2 = h >> 1;
+		/* common */
+		/* bt */
+		bt_start = w2 - 59;
+		bt_end = w2 + 62;
+		bt_rad = 2;
+		var settings = Sys.getDeviceSettings();
+		if (settings.screenShape == 1) { //circular
+			/* for 240x240 */
+			/* time */
+			time_yoff = h2 - 40;
+			time_xoffhr = w2 - 112;
+			time_xoffhl = w2 - 54;
+			time_xoffmr = w2 + 6;
+			time_xoffml = w2 + 64;
+			time_padx = 11;
+			time_pady = 13;
+
+			/* date */
+			date_xoffr = 82;
+			date_xoffl = 50;
+			date_yoff = 90;
+			date_pad = 6;
+
+			/* month */
+			month_pad = 6;
+			month_y = h2 - 90;
+			month_xoff = 32;
+			month_xoff1 = w2 - 14;
+
+			/* day */
+			day_pad = 7;
+			day_y = h2 + 55;
+			day_xoff = 42;
+			day_xoff1 = w2 - 56;
+
+			/* battery */
+			bat_x = w2 - 59;
+			bat_pad = 6;
+			bat_y = 13;
+
+			/* bt */
+			bt_ypad = -16;
+
+		} else if (settings.screenShape == 2) { // semi-circular
+			/* time */
+			time_yoff = h2 - 30;
+			time_xoffhr = w2 - 94;
+			time_xoffhl = w2 - 44;
+			time_xoffmr = w2 + 8;
+			time_xoffml = w2 + 58;
+			time_padx = 9;
+			time_pady = 11;
+
+			/* date */
+			date_xoffr = 74;
+			date_xoffl = 47;
+			date_yoff = 75;
+			date_pad = 5;
+
+			/* month */
+			month_pad = 5;
+			month_y = h2 - 75;
+			month_xoff = 29;
+			month_xoff1 = w2 - 4;
+
+			/* day */
+			day_pad = 5;
+			day_y = h2 + 50;
+			day_xoff = 32;
+			day_xoff1 = w2 - 42;
+
+			/* battery */
+			bat_x = w2 - 59;
+			bat_pad = 6;
+			bat_y = 1;
+
+			/* bt */
+			bt_ypad = -2;
+		}
 	}
 
 	function onShow() {
@@ -108,15 +219,6 @@ class dotterView extends Ui.WatchFace {
 		}
 		dc.setColor(fg, bg);
 		dc.clear();
-		// I whish I had a fancy watch that supported this...
-		//var stat = Sys.getSystemStats();
-		//if (stat has :charging && stat.charging == true) {
-		//	if (stat.battery.toNumber() > 95) {
-		//		dc.fillCircle(w - 42, h - 28, 9);
-		//	} else {
-		//		dc.drawCircle(w - 42, h - 28, 9);
-		//	}
-		//}
 		if (on) {
 			drawTime(dc, dotsize, dotsize);
 			if (alwayson || (countdown > 0)) {
@@ -134,6 +236,7 @@ class dotterView extends Ui.WatchFace {
 
 	function drawTime(dc, size_h, size_m) {
 		dc.setColor(fg, -1);
+		/*
 		if (on && false) {
 			for (var i = 0; i < h; i += 4) {
 				for (var j = 0; j < w; j += 4) {
@@ -141,34 +244,19 @@ class dotterView extends Ui.WatchFace {
 				}
 			}
 		}
+		*/
 		var now = Cal.info(Time.now(), Time.FORMAT_SHORT);
 		var hour = now.hour;
 		var min = now.min;
 		if (!is24 && hour > 12) {
 			hour -= 12;
 		}
-		var hoff = h2 - 40;
-		var xoffhr = w2 - 112;
-		var xoffhl = w2 - 54;
-		var xoffmr = w2 + 6;
-		var xoffml = w2 + 64;
-		var padx = 11;
-		var pady = 13;
-		if (Sys.getDeviceSettings().screenShape == 2) {
-			hoff = h2 - 30;
-			xoffhr = w2 - 94;
-			xoffhl = w2 - 44;
-			xoffmr = w2 + 8;
-			xoffml = w2 + 58;
-			padx = 9;
-			pady = 11;
-		}
 		// hour
-		drawSNumPad(dc, hour/10, xoffhr, hoff, padx, pady, size_h);
-		drawSNumPad(dc, hour%10, xoffhl, hoff, padx, pady, size_h);
+		drawSNumPad(dc, hour/10, time_xoffhr, time_yoff, time_padx, time_pady, size_h);
+		drawSNumPad(dc, hour%10, time_xoffhl, time_yoff, time_padx, time_pady, size_h);
 		// minutes
-		drawSNumPad(dc, min/10, xoffmr, hoff, padx, pady, size_m);
-		drawSNumPad(dc, min%10, xoffml, hoff, padx, pady, size_m);
+		drawSNumPad(dc, min/10, time_xoffmr, time_yoff, time_padx, time_pady, size_m);
+		drawSNumPad(dc, min%10, time_xoffml, time_yoff, time_padx, time_pady, size_m);
 	}
 
 	function drawDate(dc, size) {
@@ -176,19 +264,10 @@ class dotterView extends Ui.WatchFace {
 		//date perhaps
 		var day = now.day;
 		var mon = now.month;
-		var xoffr = 82;
-		var xoffl = 50;
-		var yoff = 90;
-		var pad = 6;
-		if (Sys.getDeviceSettings().screenShape == 2) {
-			xoffr = 74;
-			xoffl = 47;
-			yoff = 75;
-			pad = 5;
-		}
-		var y = h2 - yoff;
-		drawSNum(dc, day/10, w2 - xoffr, y, pad, size);
-		drawSNum(dc, day%10, w2 - xoffl, y, pad, size);
+		var y = h2 - date_yoff;
+
+		drawSNum(dc, day/10, w2 - date_xoffr, y, date_pad, size);
+		drawSNum(dc, day%10, w2 - date_xoffl, y, date_pad, size);
 
 		drawMonth(dc, size_month, mon);
 
@@ -201,23 +280,25 @@ class dotterView extends Ui.WatchFace {
   	 */
 	function drawBat(dc, rad) {
 		var bat = Sys.getSystemStats().battery.toNumber();
-		if (bat < 20) {
+		// I whish I had a fancy watch that supported this... but wait, I do now
+		var stat = Sys.getSystemStats();
+		if (stat has :charging && stat.charging == true) {
+			if (stat.battery.toNumber() > 95) {
+				dc.setColor(Gfx.COLOR_GREEN, -1);
+			} else {
+				dc.setColor(Gfx.COLOR_YELLOW, -1);
+			}
+		} else if (bat < 20) {
 			dc.setColor(Gfx.COLOR_PINK, -1);
 		}
 
-		//var rad = size;
 		bat = bat / 5; //20;
-		var start = w2 - 59;
-		var pad = 6; //25;
-		var y = 13;
-		if (Sys.getDeviceSettings().screenShape == 2) { //Sys.SCREEN_SHAPE_SEMI_ROUND) {
-			y = 1;
-		}
+
 		for (var i = 0; i < bat && i < 20; i += 1) {
-			dc.fillCircle(start + i * pad, y, rad);
+			dc.fillCircle(bat_x + i * bat_pad, bat_y, rad);
 		}
 		for (var i = bat; i < 20; i += 1) {
-			dc.drawCircle(start + i * pad, y, rad);
+			dc.drawCircle(bat_x + i * bat_pad, bat_y, rad);
 		}
 		if (bat < 20) {
 			dc.setColor(fg, -1);
@@ -226,23 +307,9 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawMonthLetters(dc, size, first, second, third) {
-		var pad = 6;
-		var y = h2 - 90;
-		var off = 32;
-		var off1 = w2 - 14;
-		var off2 = off1 + off;
-		var off3 = off2 + off;
-		if (Sys.getDeviceSettings().screenShape == 2) {
-			pad = 5;
-			y = h2 - 75;
-			off = 29;
-			off1 = w2 - 4;
-			off2 = off1 + off;
-			off3 = off2 + off;
-		}
-		drawSNum(dc, first, off1, y, pad, size);
-		drawSNum(dc, second, off2, y, pad, size);
-		drawSNum(dc, third, off3, y, pad, size);
+		drawSNum(dc, first, month_xoff1, month_y, month_pad, size);
+		drawSNum(dc, second, month_xoff1 + month_xoff, month_y, month_pad, size);
+		drawSNum(dc, third, month_xoff1 + 2 * month_xoff, month_y, month_pad, size);
 	}
 
 	function drawMonth(dc, size, mon) {
@@ -274,25 +341,9 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawDayLetters(dc, size, first, second, third) {
-		var pad = 7;
-		var y = h2 + 55;
-		var off = 42;
-		//var off1 = w2 - 70;
-		var off1 = w2 - 56;
-		var off2 = off1 + off;
-		var off3 = off2 + off;
-		if (Sys.getDeviceSettings().screenShape == 2) {
-			pad = 5;
-			y = h2 + 50;
-			off = 32;
-			//off1 = w2 - 70;
-			off1 = w2 - 42;
-			off2 = off1 + off;
-			off3 = off2 + off;
-		}
-		drawSNum(dc, first, off1, y, pad, size);
-		drawSNum(dc, second, off2, y, pad, size);
-		drawSNum(dc, third, off3, y, pad, size);
+		drawSNum(dc, first, day_xoff1, day_y, day_pad, size);
+		drawSNum(dc, second, day_xoff1 + day_xoff, day_y, day_pad, size);
+		drawSNum(dc, third, day_xoff1 + 2 * day_xoff, day_y, day_pad, size);
 	}
 
 	function drawDay(dc, size, day) {
@@ -314,24 +365,15 @@ class dotterView extends Ui.WatchFace {
 	}
 
 	function drawMsg(dc) {
-		var settings = Sys.getDeviceSettings();
-		var start = w2 - 59;
-		var end = w2 + 62;
-		var rad = 2;
-		var ypad = -16;
-		if (settings.screenShape == 2) {
-			ypad = -2;
-		}
+		var local_settings = Sys.getDeviceSettings();
 		
-		if (settings.notificationCount) {
-			//for (var i = h - 22; i < h; i += 6) {
-			for (var j = start; j < end; j += 6) {
-				dc.fillCircle(j, h + ypad, rad);
+		if (local_settings.notificationCount) {
+			for (var j = bt_start; j < bt_end; j += 6) {
+				dc.fillCircle(j, h + bt_ypad, bt_rad);
 			}
-			//}
-		} else if (settings.phoneConnected) {
-			for (var j = start; j < end; j += 6) {
-				dc.drawCircle(j, h + ypad, rad);
+		} else if (local_settings.phoneConnected) {
+			for (var j = bt_start; j < bt_end; j += 6) {
+				dc.drawCircle(j, h + bt_ypad, bt_rad);
 			}
 		}
 	}

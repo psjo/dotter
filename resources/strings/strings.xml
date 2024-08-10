@@ -5,8 +5,8 @@
 	<string id="fg">fg color</string>
 	<string id="bg">bg color</string>
 	<string id="count">time count for date when awake</string>
-	<string id="analog">analog</string>
-	<string id="batdot">no dots</string>
+	<string id="analog">analog dot watch in lpm</string>
+	<string id="batdot">5min dots in analog</string>
 	<string id="alwayson">show all, all the time</string>
 	<string id="colPrompt">Pick a color</string>
 	<string id="blackCol">black</string>
@@ -23,8 +23,8 @@
 	<string id="yellowCol">yellow</string>
 	<string id="dkgreenCol">dark green</string>
 	<string id="purpleCol">purple</string>
-	<string id="digstart">start</string>
-	<string id="duration">duration</string>
+	<string id="digstart">start showing digital at time (if analog)</string>
+	<string id="duration">duration to show digital</string>
 	<string id="thesetting">the setting</string>
 
 </strings>
